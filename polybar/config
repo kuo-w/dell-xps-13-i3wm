@@ -1,0 +1,201 @@
+;             _       _                                   __ _       
+; _ __   ___ | |_   _| |__   __ _ _ __    ___ ___  _ __  / _(_) __ _ 
+;| '_ \ / _ \| | | | | '_ \ / _` | '__|  / __/ _ \| '_ \| |_| |/ _` |
+;| |_) | (_) | | |_| | |_) | (_| | |    | (_| (_) | | | |  _| | (_| |
+;| .__/ \___/|_|\__, |_.__/ \__,_|_|     \___\___/|_| |_|_| |_|\__, |
+;|_|            |___/                                          |___/ 
+
+
+
+
+;*********************************************************
+;
+;                          COLORS
+;
+;**********************************************************
+[colors]
+bg = ${xrdb:color7:#222}
+;fg = ${xrdb:color0:#222}
+fg-alt = ${xrdb:color7:#222}
+;primary = ${xrdb:color5:#222}
+;secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color8:#222}
+;**********************************************************
+;
+;                       GLOBAL WM SETTINGS
+;
+;**********************************************************
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+;*********************************************************
+;
+;                       BAR SETTINGS
+;
+;********************************************************
+[bar/top]
+;------------;
+; DIMENSIONS ;
+;------------;
+
+width = 100%
+height = 18
+offset-y = 0
+offset-x = 0
+
+border-top-size = 0
+border-bottom-size = 0
+border-right-size = 0
+border-left-size = 0
+
+;----------;
+; LOCATION ;
+;----------;
+
+bottom = true
+monitor = eDP-1
+wm-restack = i3
+override-redirect = false
+
+;-------;
+; FONTS ;
+;-------;
+
+font-0 = Inconsolata for Powerline:size=9;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=8;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=8;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=8;3"
+
+
+;---------------;
+; MISCELLANEOUS ;
+;---------------;
+
+fixed-center = true
+padding-left = 0
+padding-right = 1
+module-margin = 1
+line-size = 1
+modules-left = i3
+modules-center = xwindow 
+modules-right = network-settings wireless-network battery time
+tray-position = none
+tray-detached = true
+cursor-click = pointer
+
+
+;--------;
+; COLORS ;
+;--------;
+
+background = #212121
+foreground = #ffffff 
+;**********************************************************
+;
+;                   MODULES SETTINGS
+;
+;**********************************************************
+
+[module/i3]
+type = internal/i3
+
+format = <label-state>
+
+label-focused = %index%
+label-focused-foreground = #ffffff
+label-focused-background = #3f3f3f
+label-focused-padding = 4
+
+label-unfocused = %index%
+label-unfocused-padding = 4
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; This will split the workspace name on ':'
+; Default: false
+strip-wsnumbers = true
+
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
+index-sort = true
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = false
+
+; Wrap around when reaching the first/last workspace
+; Default: true
+wrapping-scroll = false
+
+; Set the scroll cycle direction 
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning 
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces 
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+
+
+[module/time]
+type = internal/date
+interval = 1.0
+date = %H:%M
+
+
+
+[module/date]
+type = internal/date
+date = %e %B
+label = %date%
+
+
+
+[module/xwindow]
+type = internal/xwindow
+;label = %title%
+label = %title:0:30:...%
+
+
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 99
+poll-interval=5
+
+
+
+[module/wireless-network]
+type = internal/network
+interface = wlp2s0
+format-connected = <label-connected>
+label-connected = connected %downspeed% | %upspeed%
+
+format-disconnected = <label-disconnected>
+label-disconnected = not connected
+
+format-packetloss = <label-connected>
+
+
+[module/network-settings]
+type = custom/script
+format = <label>
+label = %output%
+exec = ./network-settings.sh
+click-left = nm-connection-editor
